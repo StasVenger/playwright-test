@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test --ui"
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "allure:generate": "allure generate allure-results -o allure-report --clean",
+    "allure:open": "allure open allure-report"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +15,7 @@
   "devDependencies": {
     "@playwright/test": "^1.42.1",
     "@types/node": "^20.12.2",
+    "allure-playwright": "^2.15.0",
     "typescript": "^5.4.3"
   }
 }
