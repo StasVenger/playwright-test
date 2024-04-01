@@ -5,6 +5,7 @@ export class MainPage {
   readonly commonSectionElement: string;
   readonly commonCardElement: string;
   readonly firstVideoSection: Locator;
+  readonly pageLogo: Locator;
   readonly videoAvatar: Locator;
   readonly videoTitle: Locator;
   readonly videoDescription: Locator;
@@ -16,6 +17,7 @@ export class MainPage {
     this.commonCardElement = `${this.commonSectionElement}//article[@data-testid="floor-image-card"]`;
 
     this.page = page;
+    this.pageLogo = page.locator('//header[contains(@class, "desktop-base-header__isMorda")]//a[@href="/"][last()]');
     this.firstVideoSection = page.locator(`${this.commonSectionElement}`);
     this.videoAvatar = page.locator(`${this.commonCardElement}//div[contains(@class, "zen-ui-avatar")]`);
     this.videoTitle = page.locator(`${this.commonCardElement}//div[@data-testid="card-image-default-title"]`);
@@ -26,6 +28,10 @@ export class MainPage {
 
   async goto() {
     await this.page.goto('/');
+  }
+
+  async checkPageLogo() {
+    await expect(this.pageLogo).toBeVisible();
   }
 
   async scrollToVideoSection() {
