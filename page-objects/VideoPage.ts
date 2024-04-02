@@ -6,6 +6,10 @@ export class VideoPage {
   readonly searchInput: Locator;
   readonly searchButton: Locator;
   readonly activeSearchTab: Locator;
+  readonly videoCardLink: Locator;
+  readonly videoControlsPanel: Locator;
+  readonly fullScreenButton: Locator;
+  readonly fullScreen: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -13,6 +17,10 @@ export class VideoPage {
     this.searchInput = page.locator('//input[@data-testid="search-input"]');
     this.searchButton = page.locator('//button[.="Найти"]');
     this.activeSearchTab = page.locator('//button[@aria-label="Активный поисковый фильтр"]/span[.="Видео и ролики"]');
+    this.videoCardLink = page.locator('//a[@data-testid="video-card-clickable"]');
+    this.videoControlsPanel = page.locator('//div[@class="zen-ui-video-video-controls__composer _name_area-combined"]');
+    this.fullScreenButton = page.locator('//button[@class="zen-ui-video-video-fullscreen-toggle"]');
+    this.fullScreen = page.locator('//div[conains(@class, "_is-fullscreen")]');
   }
 
   async checkVideoLogo() {
@@ -26,12 +34,33 @@ export class VideoPage {
   }
 
   async clickSearchButton() {
-    // await expect(this.searchButton).toBeVisible();
-    // this.searchButton.click();
-    await this.searchInput.press('Enter');
+    await expect(this.searchButton).toBeVisible();
+    this.searchButton.click();
+    await this.page.waitForLoadState();
   }
 
   async checkActiveSearchTab() {
     await expect(this.activeSearchTab).toBeVisible();
+  }
+
+  async clickOnFirstVideo() {
+    const [ newPage ] = await Promise.all([
+      this.page.waitForEvent('popup'),
+      await this.videoCardLink.first().click()
+    ])
+    return new VideoPage(newPage);
+  }
+
+  async checkVideoControlsVisible() {
+    await expect(this.videoControlsPanel).toBeVisible();
+  }
+
+  async clickOnFullScreenButton() {
+    await expect(this.fullScreenButton).toBeVisible();
+    await this.fullScreenButton.click();
+  }
+
+  async checkFullScreen() {
+    await expect(this.fullScreen).toBeVisible();
   }
 }
