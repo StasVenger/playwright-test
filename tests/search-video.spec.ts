@@ -17,4 +17,10 @@ test('open video page, search video and check', async ({ page }) => {
   await videoPage.enterSearchText('Синий трактор');
   await videoPage.clickSearchButton();
   await videoPage.checkActiveSearchTab();
+
+  const video = await videoPage.clickOnFirstVideo()
+
+  await video.checkVideoControlsVisible();
+  // await video.clickOnFullScreenButton();
+  // await video.checkFullScreen();
 })

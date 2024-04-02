@@ -13,6 +13,7 @@ export class Navigation {
 
   async clickOnNavigationLink() {
     await this.navigationItem.click();
+    await this.page.waitForLoadState();
   }
 
   async checkActiveLink() {
